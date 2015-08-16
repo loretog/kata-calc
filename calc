@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
+use Calc\Grammar;
+use Calc\Lexer;
+use Calc\Scanner;
+
+array_shift($argv);
+
+$line = array_reduce($argv, function($actual, $item) {
+    return $actual . $item;
+});
+
+$grammar = new Grammar(new Lexer(new Scanner($line)));
+
+echo $grammar->compute() . PHP_EOL;
