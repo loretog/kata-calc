@@ -31,25 +31,12 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("842", $lexeme);
     }
 
-    public function testExtractSymbols()
-    {
-        $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn(false);
-        $scanner->current()->willReturn('+');
-
-        $lexer = new Lexer($scanner->reveal());
-
-        $lexeme = $lexer->next();
-
-        $this->assertInstanceOf("Calc\\Lexeme\\Symbol", $lexeme);
-        $this->assertEquals("+", $lexeme);
-    }
 
     public function testExtractConsecutivesStrings()
     {
         $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn('+', '4', '2', false);
-        $scanner->current()->willReturn('8', '+', '4', '2', false);
+        $scanner->next()->willReturn('+', '4', '2', false, false);
+        $scanner->current()->willReturn('8', '+', '4', false);
 
         $lexer = new Lexer($scanner->reveal());
 
@@ -60,13 +47,15 @@ class LexerTest extends \PHPUnit_Framework_TestCase
 
         $lexeme = $lexer->next();
 
-        $this->assertInstanceOf("Calc\\Lexeme\\Symbol", $lexeme);
+        $this->assertInstanceOf("Calc\\Lexeme\\AdditionSymbol", $lexeme);
         $this->assertEquals("+", $lexeme);
 
         $lexeme = $lexer->next();
 
         $this->assertInstanceOf("Calc\\Lexeme\\Number", $lexeme);
         $this->assertEquals("42", $lexeme);
+
+        $this->assertFalse($lexer->next());
     }
 
     /**
@@ -76,10 +65,23 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     {
         $scanner = $this->prophesize("Calc\\Scanner");
         $scanner->next()->willReturn('+', '4', '2', false);
-        $scanner->current()->willReturn('y', '+', '4', '2', false);
+        $scanner->current()->willReturn('y', '+', '4', false);
 
         $lexer = new Lexer($scanner->reveal());
 
         $lexeme = $lexer->next();
     }
+
+    public function testScannerStopAsIntegration()
+    {
+        $lexer = new Lexer(new Scanner("8+42"));
+
+        $i = 0;
+        while ($lexer->next() != false) {
+            ++$i;
+        }
+
+        $this->assertEquals(3, $i);
+    }
 }
+

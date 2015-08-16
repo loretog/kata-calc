@@ -17,8 +17,8 @@ class Scanner
 
     public function next()
     {
+        ++$this->index;
         $token = $this->current();
-        $this->index++;
         return $token;
     }
 

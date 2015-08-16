@@ -9,7 +9,7 @@ class ScannerTest extends \PHPUnit_Framework_TestCase
     public function testExtractFirstNumber($input, $data)
     {
         $scanner = new Scanner($input);
-        $token = $scanner->next();
+        $token = $scanner->current();
 
         $this->assertEquals($data, $token);
     }
@@ -30,7 +30,7 @@ class ScannerTest extends \PHPUnit_Framework_TestCase
     {
         $scanner = new Scanner("8 + 4");
 
-        $token = $scanner->next();
+        $token = $scanner->current();
         $this->assertEquals("8", $token);
 
         $token = $scanner->next();
