@@ -1,7 +1,7 @@
 <?php
 namespace Calc;
 
-use Calc\State\NumberState;
+use Calc\State\InitialState;
 
 class Grammar
 {
@@ -17,15 +17,7 @@ class Grammar
 
     public function compute()
     {
-        $init = $this->getLexer()->next();
-
-        if (!($init instanceOf Lexeme\Number)) {
-            throw new SyntaxException("Invalid Sequence");
-        }
-
-        $this->setTotal((string)$init);
-        $this->setState(new NumberState($init));
-
+        $this->setState(new InitialState());
         while (($state = $this->getState()) !== false) {
             $this->getState()->next($this, $this->getLexer()->next());
         }

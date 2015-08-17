@@ -24,12 +24,12 @@ class NumberState implements State
         }
 
         switch (get_class($input)) {
-        case "Calc\\Lexeme\\AdditionSymbol":
-        case "Calc\\Lexeme\\SubtractSymbol":
-            $context->setState(new OperatorState($input));
-            break;
-        default:
-            throw new SyntaxException("Invalid sequence");
+            case "Calc\\Lexeme\\AdditionSymbol":
+            case "Calc\\Lexeme\\SubtractSymbol":
+                $context->setState(new OperatorState($input));
+                break;
+            default:
+                throw new SyntaxException("Invalid sequence");
         }
     }
 }
