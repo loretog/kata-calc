@@ -2,6 +2,7 @@
 namespace Calc;
 
 use Calc\State\InitialState;
+use Calc\State;
 
 class Grammar
 {
@@ -18,9 +19,7 @@ class Grammar
     public function compute()
     {
         $this->setState(new InitialState());
-        while (($state = $this->getState()) !== false) {
-            $this->getState()->next($this, $this->getLexer()->next());
-        }
+        while ($this->getState()->next($this, $this->getLexer()->next()) !== false);
 
         return $this->getTotal();
     }
@@ -46,7 +45,7 @@ class Grammar
         return $this->state;
     }
 
-    public function setState($state)
+    public function setState(State $state)
     {
         $this->state = $state;
         return $this;

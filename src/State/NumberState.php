@@ -6,6 +6,7 @@ use Calc\Lexeme\Number;
 use Calc\Grammar;
 use Calc\State\OperatorState;
 use Calc\SyntaxException;
+use Calc\State\FinalState;
 
 class NumberState implements State
 {
@@ -19,7 +20,7 @@ class NumberState implements State
     public function next(Grammar $context, $input)
     {
         if ($input == false) {
-            $context->setState(false);
+            $context->setState(new FinalState());
             return;
         }
 
