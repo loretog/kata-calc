@@ -10,7 +10,9 @@ class Lexeme
     {
         $lexeme = null;
 
-        if (self::isNumber($token)) {
+        if ($token === null) {
+            $lexeme = new Lexeme\EqualSymbol("=");
+        } else if (self::isNumber($token)) {
             $lexeme = new Lexeme\Number($token);
         } else if (self::isSymbol($token)) {
             $lexeme = self::getSymbol($token);

@@ -14,22 +14,13 @@ class Lexer
 
     public function next()
     {
-        if (!$this->scanner->valid()) {
-            return new EqualSymbol("=");
-        }
-
-        $token = $this->scanner->current();
-
-        $lexeme = Lexeme::fromToken($token);
-
-        if (!$lexeme) {
-            throw new SyntaxException("Invalid token: {$token}");
-        }
-
-        $baseClass = get_class($lexeme);
+        $lexeme = $this->getLexeme();
         do {
+            $baseClass = get_class($lexeme);
+
             $this->scanner->next();
-            $nextLexeme = Lexeme::fromToken($this->scanner->current());
+
+            $nextLexeme = $this->getLexeme();
 
             if (!($nextLexeme instanceOf $baseClass)) {
                 break;
@@ -38,6 +29,15 @@ class Lexer
             $lexeme->append($nextLexeme);
         } while ($this->scanner->valid());
 
+        return $lexeme;
+    }
+
+    private function getLexeme()
+    {
+        $lexeme = Lexeme::fromToken($this->scanner->current());
+        if (!$lexeme) {
+            throw new SyntaxException("Invalid sequence");
+        }
         return $lexeme;
     }
 }
