@@ -1,35 +1,13 @@
 <?php
 namespace Calc;
 
+use ArrayIterator;
 use InvalidArgumentException;
 
-class Scanner
+class Scanner extends ArrayIterator
 {
-
-    private $string;
-    private $index;
-
     public function __construct($string)
     {
-        $this->index = 0;
-        $this->string = str_replace([" ", "\n", ], "", trim($string));
-    }
-
-    public function next()
-    {
-        ++$this->index;
-        $token = $this->current();
-        return $token;
-    }
-
-    public function current()
-    {
-        $token = false;
-
-        if ($this->index < strlen($this->string)) {
-            $token = $this->string[$this->index];
-        }
-
-        return $token;
+        parent::__construct(str_split(str_replace([" ", "\n"], "", $string)));
     }
 }

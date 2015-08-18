@@ -3,42 +3,10 @@ namespace Calc;
 
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testExtractNumbers()
+    public function testExtractLexemes()
     {
-        $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn(false);
-        $scanner->current()->willReturn('8');
-
-        $lexer = new Lexer($scanner->reveal());
-
-        $lexeme = $lexer->next();
-
-        $this->assertInstanceOf("Calc\\Lexeme\\Number", $lexeme);
-        $this->assertEquals("8", $lexeme);
-    }
-
-    public function testExtractBigNumbers()
-    {
-        $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn('4', '2', false);
-        $scanner->current()->willReturn('8', '4', '2', false);
-
-        $lexer = new Lexer($scanner->reveal());
-
-        $lexeme = $lexer->next();
-
-        $this->assertInstanceOf("Calc\\Lexeme\\Number", $lexeme);
-        $this->assertEquals("842", $lexeme);
-    }
-
-
-    public function testExtractConsecutivesStrings()
-    {
-        $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn('+', '4', '2', false, false);
-        $scanner->current()->willReturn('8', '+', '4', false);
-
-        $lexer = new Lexer($scanner->reveal());
+        $scanner = new Scanner("8 + 42");
+        $lexer = new Lexer($scanner);
 
         $lexeme = $lexer->next();
 
@@ -64,8 +32,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testInvalidSymbols()
     {
         $scanner = $this->prophesize("Calc\\Scanner");
-        $scanner->next()->willReturn('+', '4', '2', false);
-        $scanner->current()->willReturn('y', '+', '4', false);
+        $scanner->next()->willReturn(null);
+        $scanner->current()->willReturn('y', '+', '4', null);
+        $scanner->valid()->willReturn(true, true, true, false);
 
         $lexer = new Lexer($scanner->reveal());
 

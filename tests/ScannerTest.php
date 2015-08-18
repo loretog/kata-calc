@@ -33,28 +33,15 @@ class ScannerTest extends \PHPUnit_Framework_TestCase
         $token = $scanner->current();
         $this->assertEquals("8", $token);
 
-        $token = $scanner->next();
+        $scanner->next();
+        $token = $scanner->current();
         $this->assertEquals("+", $token);
 
-        $token = $scanner->next();
+        $scanner->next();
+        $token = $scanner->current();
         $this->assertEquals("4", $token);
 
-        $token = $scanner->next();
-        $this->assertSame(false, $token);
-
-        $token = $scanner->next();
-        $this->assertSame(false, $token);
-
-        $token = $scanner->next();
-        $this->assertSame(false, $token);
-
-        $token = $scanner->current();
-        $this->assertSame(false, $token);
-    }
-
-    public function testCurrentPosition()
-    {
-        $scanner = new Scanner("8+4");
-        $this->assertEquals("8", $scanner->current());
+        $scanner->next();
+        $this->assertSame(false, $scanner->valid());
     }
 }

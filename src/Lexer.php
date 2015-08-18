@@ -12,11 +12,11 @@ class Lexer
 
     public function next()
     {
-        $token = $this->scanner->current();
-
-        if ($token === false) {
+        if ($this->scanner->valid()  === false) {
             return false;
         }
+
+        $token = $this->scanner->current();
 
         $lexeme = Lexeme::fromToken($token);
 
@@ -25,9 +25,16 @@ class Lexer
         }
 
         $baseClass = get_class($lexeme);
-        while (($nextLexeme = Lexeme::fromToken($this->scanner->next())) instanceOf $baseClass) {
+        do {
+            $this->scanner->next();
+            $nextLexeme = Lexeme::fromToken($this->scanner->current());
+
+            if (!($nextLexeme instanceOf $baseClass)) {
+                break;
+            }
+
             $lexeme->append($nextLexeme);
-        }
+        } while ($this->scanner->valid());
 
         return $lexeme;
     }
