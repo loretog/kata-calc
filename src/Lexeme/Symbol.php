@@ -3,7 +3,7 @@ namespace Calc\Lexeme;
 
 class Symbol
 {
-    private $value;
+    protected $value;
 
     public function __construct($value)
     {

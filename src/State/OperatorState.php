@@ -18,7 +18,7 @@ class OperatorState implements State
         $this->symbol = $symbol;
     }
 
-    public function next(Grammar $context, $input)
+    public function next(Grammar $context, Symbol $input)
     {
         $total = $context->getTotal();
 

@@ -7,6 +7,7 @@ use Calc\Grammar;
 use Calc\State\OperatorState;
 use Calc\SyntaxException;
 use Calc\State\FinalState;
+use Calc\Lexeme\Symbol;
 
 class NumberState implements State
 {
@@ -17,17 +18,15 @@ class NumberState implements State
         $this->number = $number;
     }
 
-    public function next(Grammar $context, $input)
+    public function next(Grammar $context, Symbol $input)
     {
-        if ($input == false) {
-            $context->setState(new FinalState());
-            return;
-        }
-
         switch (get_class($input)) {
             case "Calc\\Lexeme\\AdditionSymbol":
             case "Calc\\Lexeme\\SubtractSymbol":
                 $context->setState(new OperatorState($input));
+                break;
+            case "Calc\\Lexeme\\EqualSymbol":
+                $context->setState(new FinalState());
                 break;
             default:
                 throw new SyntaxException("Invalid sequence");

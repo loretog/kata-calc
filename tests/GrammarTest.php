@@ -8,7 +8,7 @@ class GrammarTest extends \PHPUnit_Framework_TestCase
         $lexer = $this->prophesize("Calc\\Lexer");
         $lexer->next()->willReturn(
             new Lexeme\Number("91"),
-            false
+            new Lexeme\EqualSymbol("=")
         );
 
         $grammar = new Grammar($lexer->reveal());
@@ -36,7 +36,7 @@ class GrammarTest extends \PHPUnit_Framework_TestCase
             new Lexeme\Number("8"),
             new Lexeme\AdditionSymbol("+"),
             new Lexeme\Number("42"),
-            false
+            new Lexeme\EqualSymbol("=")
         );
 
         $grammar = new Grammar($lexer->reveal());
@@ -51,7 +51,7 @@ class GrammarTest extends \PHPUnit_Framework_TestCase
             new Lexeme\Number("8"),
             new Lexeme\SubtractSymbol("-"),
             new Lexeme\Number("42"),
-            false
+            new Lexeme\EqualSymbol("=")
         );
 
         $grammar = new Grammar($lexer->reveal());
@@ -70,7 +70,7 @@ class GrammarTest extends \PHPUnit_Framework_TestCase
             new Lexeme\Number("42"),
             new Lexeme\AdditionSymbol("+"),
             new Lexeme\Number("91"),
-            false
+            new Lexeme\EqualSymbol("=")
         );
 
         $grammar = new Grammar($lexer->reveal());
