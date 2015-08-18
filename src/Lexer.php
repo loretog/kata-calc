@@ -1,6 +1,8 @@
 <?php
 namespace Calc;
 
+use Calc\Lexeme\EqualSymbol;
+
 class Lexer
 {
     private $scanner;
@@ -12,8 +14,8 @@ class Lexer
 
     public function next()
     {
-        if ($this->scanner->valid()  === false) {
-            return false;
+        if (!$this->scanner->valid()) {
+            return new EqualSymbol("=");
         }
 
         $token = $this->scanner->current();

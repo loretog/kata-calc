@@ -23,7 +23,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Calc\\Lexeme\\Number", $lexeme);
         $this->assertEquals("42", $lexeme);
 
-        $this->assertFalse($lexer->next());
+        $lexeme = $lexer->next();
+        $this->assertInstanceOf("Calc\\Lexeme\\EqualSymbol", $lexeme);
     }
 
     /**
@@ -46,7 +47,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $lexer = new Lexer(new Scanner("8+42"));
 
         $i = 0;
-        while ($lexer->next() != false) {
+        while (get_class($lexer->next()) != "Calc\\Lexeme\\EqualSymbol") {
             ++$i;
         }
 
