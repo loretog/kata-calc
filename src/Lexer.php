@@ -22,7 +22,7 @@ class Lexer
 
             $nextLexeme = $this->getLexeme();
 
-            if (!($nextLexeme instanceOf $baseClass)) {
+            if (!$lexeme->isSame($nextLexeme)) {
                 break;
             }
 

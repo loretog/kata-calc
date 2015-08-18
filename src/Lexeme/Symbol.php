@@ -15,6 +15,12 @@ class Symbol
         $this->value = $token;
     }
 
+    public function isSame(Symbol $symbol)
+    {
+        $clazz = get_class($symbol);
+        return ($this instanceOf $clazz);
+    }
+
     public function __toString()
     {
         return $this->value;
