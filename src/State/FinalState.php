@@ -9,6 +9,6 @@ class FinalState implements State
 {
     public function next(Grammar $context, Symbol $input)
     {
-        return false;
+        $context->setState(null);
     }
 }

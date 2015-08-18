@@ -19,19 +19,11 @@ class Grammar
     public function compute()
     {
         $this->setState(new InitialState());
-        while ($this->getState()->next($this, $this->getLexer()->next()) !== false);
+        do {
+            $this->getState()->next($this, $this->lexer->next());
+        } while ($this->getState());
 
         return $this->getTotal();
-    }
-
-    public function getLexer()
-    {
-        return $this->lexer;
-    }
-
-    public function getTotal()
-    {
-        return $this->total;
     }
 
     public function setTotal($total)
@@ -40,12 +32,17 @@ class Grammar
         return $this;
     }
 
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
     public function getState()
     {
         return $this->state;
     }
 
-    public function setState(State $state)
+    public function setState(State $state = null)
     {
         $this->state = $state;
         return $this;

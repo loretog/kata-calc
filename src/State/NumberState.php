@@ -29,6 +29,7 @@ class NumberState implements State
                 $context->setState(new FinalState());
                 break;
             default:
+                $context->setState(null);
                 throw new SyntaxException("Invalid sequence");
         }
     }
