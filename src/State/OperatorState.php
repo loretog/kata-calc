@@ -27,8 +27,7 @@ class OperatorState implements State
                 $context->setState(new NumberState($input));
                 if ($this->symbol instanceOf AdditionSymbol) {
                     $total += (string)$input;
-                }
-                else if ($this->symbol instanceOf SubtractSymbol) {
+                } else if ($this->symbol instanceOf SubtractSymbol) {
                     $total -= (string)$input;
                 }
                 break;
